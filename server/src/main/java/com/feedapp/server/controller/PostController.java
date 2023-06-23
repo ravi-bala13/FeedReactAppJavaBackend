@@ -16,6 +16,9 @@ public class PostController {
     @Autowired
     PostService postService;
 
+    /**
+     * This api is used to create a post
+     */
     @PostMapping("/")
     public BaseResponse<Object> createPost(@RequestBody PostDetailsRequest postDetailsRequest){
         try {
@@ -28,6 +31,9 @@ public class PostController {
         }
     }
 
+    /**
+     * This api is used to fetch all post in paginated manner which are recently created
+     */
     @GetMapping("/")
     public BaseResponse<Object> getAllPosts(@RequestParam(value = "offset", required = false) Integer offset, @RequestParam(value = "limit", required = false) Integer limit){
         try {
@@ -40,6 +46,9 @@ public class PostController {
         }
     }
 
+    /**
+     * This api is used to fetch all post created by a person in his profile page
+     */
     @GetMapping("/self")
     public BaseResponse<Object> getPostForParticularUser(@RequestParam("loginUserId") String loginUserId, @RequestParam(value = "offset", required = false) Integer offset, @RequestParam(value = "limit", required = false) Integer limit){
         try {
