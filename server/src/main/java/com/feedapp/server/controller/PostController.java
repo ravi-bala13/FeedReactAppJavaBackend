@@ -62,4 +62,15 @@ public class PostController {
             return BaseResponseUtils.createErrorBaseResponse();
         }
     }
+
+    @PostMapping("/dislike")
+    public BaseResponse<Object> dislikePost(@RequestBody PostDetailsRequest postDetailsRequest){
+        try {
+            postService.dislikePost(postDetailsRequest);
+            return BaseResponseUtils.createSuccessBaseResponse();
+        }catch (Exception e){
+            log.error("Error in likePost", e);
+            return BaseResponseUtils.createErrorBaseResponse();
+        }
+    }
 }

@@ -10,5 +10,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostDao extends MongoRepository<Post, String> {
     Page<Post> findAllByUserId(String userId, Pageable pageable);
-
 }

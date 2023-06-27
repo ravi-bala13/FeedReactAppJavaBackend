@@ -6,7 +6,6 @@ import com.feedapp.server.request.PostDetailsRequest;
 import com.feedapp.server.response.BaseResponse;
 import com.feedapp.server.utils.BaseResponseUtils;
 import lombok.extern.log4j.Log4j2;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -69,13 +68,17 @@ public class PostService {
             return BaseResponseUtils.createErrorBaseResponse();
         }
     }
-
     @Async
     public void likePost(PostDetailsRequest postDetailsRequest) {
-        log.info(postDetailsRequest);
-
         Query query = new Query(Criteria.where("_id").is(postDetailsRequest.getPostId()));
         Update update = new Update().inc("likes", 1);
+        mongoTemplate.updateFirst(query, update, "Post");
+    }
+
+    @Async
+    public void dislikePost(PostDetailsRequest postDetailsRequest) {
+        Query query = new Query(Criteria.where("_id").is(postDetailsRequest.getPostId()));
+        Update update = new Update().inc("likes", -1);
         mongoTemplate.updateFirst(query, update, "Post");
     }
 }
