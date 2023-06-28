@@ -29,7 +29,7 @@ public class PostService {
     PostDao postDao;
 
     @Autowired
-    MongoTemplate mongoTemplate;
+    MongoTemplateService mongoTemplateService;
 
     @Async
     public void savePost(PostDetailsRequest postDetailsRequest){
@@ -70,15 +70,11 @@ public class PostService {
     }
     @Async
     public void likePost(PostDetailsRequest postDetailsRequest) {
-        Query query = new Query(Criteria.where("_id").is(postDetailsRequest.getPostId()));
-        Update update = new Update().inc("likes", 1);
-        mongoTemplate.updateFirst(query, update, "Post");
+        mongoTemplateService.updatePostLike(postDetailsRequest.getPostId(), 1);
     }
 
     @Async
     public void dislikePost(PostDetailsRequest postDetailsRequest) {
-        Query query = new Query(Criteria.where("_id").is(postDetailsRequest.getPostId()));
-        Update update = new Update().inc("likes", -1);
-        mongoTemplate.updateFirst(query, update, "Post");
+        mongoTemplateService.updatePostLike(postDetailsRequest.getPostId(), -1);
     }
 }
