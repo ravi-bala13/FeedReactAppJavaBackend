@@ -10,14 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +39,7 @@ public class PostService {
     }
 
     public BaseResponse<Object> getAllPost(Integer offset, Integer limit){
-        List<Post> postList = new ArrayList<>();
+        List<Post> postList;
         try {
             Pageable pageable = PageRequest.of(offset, limit);
             Page<Post> postPageable = postDao.findAll(pageable);
@@ -57,7 +52,7 @@ public class PostService {
     }
 
     public BaseResponse<Object> getAllPostForParticularUser(String loginUserId, Integer offset, Integer limit) {
-        List<Post> postList = new ArrayList<>();
+        List<Post> postList;
         try {
             Pageable pageable = PageRequest.of(offset, limit);
             Page<Post> postPageable = postDao.findAllByUserId(loginUserId, pageable);
